@@ -50,8 +50,7 @@ class ListFragment : Fragment() {
 
         listViewModel.cows.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.data = it
-                Log.e(TAG, "Cows got updated!")
+                adapter.submitList(it)
             }
         })
 

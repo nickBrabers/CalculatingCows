@@ -12,23 +12,14 @@ import com.example.calculatingcows.databinding.CowItemBinding
 
 class FancyListAdapter : ListAdapter<Cow, FancyListAdapter.FancyViewHolder>(MadeDiffUtil()) {
 
-    var data = listOf<Cow>()
-    set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
-
-    override fun getItemCount() = data.size
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FancyViewHolder {
         return FancyViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: FancyViewHolder, position: Int) {
-        val item = data[position]
+        val item = getItem(position)
         holder.bind(item)
     }
-
 
     class FancyViewHolder private constructor(val binding: CowItemBinding): RecyclerView.ViewHolder(binding.root) {
 
