@@ -1,9 +1,11 @@
 package com.example.calculatingcows.list
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.calculatingcows.Filter
-import com.example.calculatingcows.convert
 import com.example.calculatingcows.data.Cow
 import com.example.calculatingcows.data.CowDatabaseDao
 import kotlinx.coroutines.launch

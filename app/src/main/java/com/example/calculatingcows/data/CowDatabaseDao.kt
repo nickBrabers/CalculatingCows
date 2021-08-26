@@ -16,11 +16,6 @@ interface CowDatabaseDao {
     @Delete
     suspend fun delete(cow: Cow)
 
-
-    // Note: Don't use suspend fun when returning a LiveData
-    @Query("SELECT * FROM cow_table WHERE id = :id LIMIT 1")
-    fun getLast(id: Int): LiveData<Cow>
-
     // Note: Don't use suspend fun when returning a LiveData
     @Query("SELECT * FROM cow_table ORDER BY id ASC")
     suspend fun getAll(): List<Cow>
