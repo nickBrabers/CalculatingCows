@@ -18,10 +18,10 @@ interface CowDatabaseDao {
 
     // Note: Don't use suspend fun when returning a LiveData
     @Query("SELECT * FROM cow_table ORDER BY id ASC")
-    suspend fun getAll(): List<Cow>
+    fun getAll(): LiveData<List<Cow>>
 
     @Query("SELECT * FROM cow_table ORDER BY id DESC")
-    suspend fun getAllByNewest(): List<Cow>
+    fun getAllByNewest(): LiveData<List<Cow>>
 
     @Query("DELETE FROM cow_table")
     suspend fun deleteAll()

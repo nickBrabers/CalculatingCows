@@ -47,9 +47,11 @@ class ListFragment : Fragment() {
         binding.listRecyclerView.adapter = adapter
 
 
-        listViewModel.cows.observe(viewLifecycleOwner, Observer {
-            it?.let {
+        listViewModel.cows.observe(viewLifecycleOwner, Observer { mutableLiveData ->
+            mutableLiveData?.let { liveData ->
+            liveData.observe(viewLifecycleOwner, Observer {
                 adapter.submitList(it)
+            })
             }
         })
 
@@ -62,9 +64,6 @@ class ListFragment : Fragment() {
                     listViewModel.onNavigateDone()
                 }
             })
-
-
-
 
         setHasOptionsMenu(true)
         return binding.root
