@@ -1,7 +1,6 @@
 package com.example.calculatingcows.list
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.calculatingcows.Filter
 import com.example.calculatingcows.data.Cow
 import com.example.calculatingcows.data.CowDatabaseDao
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ListViewModel(
     private val databaseDao: CowDatabaseDao,
@@ -32,9 +33,9 @@ class ListViewModel(
 
     init {
         if (_preference.value == null) {
-            _preference.value = Filter.SHOW_DESC
+            _preference.value = Filter.SHOW_ASC
         }
-        cows.value = getCowsFromDatabase(_preference.value!!)
+            cows.value = getCowsFromDatabase(_preference.value!!)
     }
 
 
@@ -53,29 +54,20 @@ class ListViewModel(
     }
 
     private fun getCowsFromDatabase(filter: Filter): LiveData<List<Cow>> {
-
         viewModelScope.launch {
-            cows.value = when (filter) {
-                Filter.SHOW_DESC -> databaseDao.getAllByNewest()
-                else -> databaseDao.getAll()
+                cows.value = databaseDao.getAll(filter)
             }
-            Log.i(TAG, "we got into the database's calls $filter")
-        }
         return cows.value!!
     }
 
     fun updateFilter(filter: Filter) {
         _preference.value = filter
         getCowsWithFilter()
-        Log.i(TAG, "Update Filter was Called ${_preference.value}")
     }
 
     private fun getCowsWithFilter() {
         _preference.value?.let {
             getCowsFromDatabase(it)
         }
-        Log.i(TAG, "getCowsWithFilter was called! ${_preference.value}")
     }
 }
-
-private const val TAG = "Testing Filters"
