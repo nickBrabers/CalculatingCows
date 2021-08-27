@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.calculatingcows.Filter
@@ -13,7 +12,6 @@ import com.example.calculatingcows.data.CowDatabase
 import com.example.calculatingcows.data.CowDatabaseDao
 import com.example.calculatingcows.databinding.ListFragmentBinding
 
-private const val TAG = "Room"
 
 
 class ListFragment : Fragment() {
@@ -47,9 +45,9 @@ class ListFragment : Fragment() {
         binding.listRecyclerView.adapter = adapter
 
 
-        listViewModel.cows.observe(viewLifecycleOwner, Observer { mutableLiveData ->
+        listViewModel.cows.observe(viewLifecycleOwner, { mutableLiveData ->
             mutableLiveData?.let { liveData ->
-            liveData.observe(viewLifecycleOwner, Observer {
+            liveData.observe(viewLifecycleOwner, {
                 adapter.submitList(it)
             })
             }
@@ -57,7 +55,7 @@ class ListFragment : Fragment() {
 
         listViewModel.eventNavigateToAdd.observe(
             viewLifecycleOwner,
-            Observer { shouldNavigateToAdd ->
+            { shouldNavigateToAdd ->
                 if (shouldNavigateToAdd) {
                     this.findNavController()
                         .navigate(ListFragmentDirections.actionListFragmentToAddFragment())

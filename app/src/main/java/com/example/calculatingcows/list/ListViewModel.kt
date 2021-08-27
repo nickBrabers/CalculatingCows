@@ -32,10 +32,12 @@ class ListViewModel(
     private val _preference = MutableLiveData<Filter>()
 
     init {
-        if (_preference.value == null) {
-            _preference.value = Filter.SHOW_ASC
+        viewModelScope.launch {
+            if (_preference.value == null) {
+                _preference.value = Filter.SHOW_ASC
+            }
+            teste(_preference.value!!)
         }
-            cows.value = getCowsFromDatabase(_preference.value!!)
     }
 
 
@@ -53,21 +55,24 @@ class ListViewModel(
         }
     }
 
-    private fun getCowsFromDatabase(filter: Filter): LiveData<List<Cow>> {
-        viewModelScope.launch {
-                cows.value = databaseDao.getAll(filter)
-            }
-        return cows.value!!
-    }
-
     fun updateFilter(filter: Filter) {
         _preference.value = filter
-        getCowsWithFilter()
+        viewModelScope.launch {
+            getCowsWithFilter()
+        }
     }
 
     private fun getCowsWithFilter() {
         _preference.value?.let {
-            getCowsFromDatabase(it)
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    teste(_preference.value!!)
+                }
+            }
         }
+    }
+    private suspend fun teste(filter: Filter) = withContext(Dispatchers.IO) {
+        val dados = databaseDao.getAll(filter)
+        cows.postValue(dados)
     }
 }
