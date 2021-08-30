@@ -1,16 +1,10 @@
 package com.example.calculatingcows.list
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.calculatingcows.Filter
-import com.example.calculatingcows.data.Cow
 import com.example.calculatingcows.data.CowDatabaseDao
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ListViewModel(
     private val databaseDao: CowDatabaseDao,
@@ -23,20 +17,22 @@ class ListViewModel(
         get() = _cows
 */
 
-    val cows = MutableLiveData<LiveData<List<Cow>>>()
-
     private val _eventNavigateToAdd = MutableLiveData<Boolean>()
     val eventNavigateToAdd: LiveData<Boolean>
         get() = _eventNavigateToAdd
 
     private val _preference = MutableLiveData<Filter>()
 
+    val cows = Transformations.switchMap(_preference){
+        databaseDao.getAll(it)
+    }
+
     init {
         viewModelScope.launch {
             if (_preference.value == null) {
                 _preference.value = Filter.SHOW_ASC
             }
-            teste(_preference.value!!)
+
         }
     }
 
@@ -57,22 +53,5 @@ class ListViewModel(
 
     fun updateFilter(filter: Filter) {
         _preference.value = filter
-        viewModelScope.launch {
-            getCowsWithFilter()
-        }
-    }
-
-    private fun getCowsWithFilter() {
-        _preference.value?.let {
-            viewModelScope.launch {
-                withContext(Dispatchers.IO) {
-                    teste(_preference.value!!)
-                }
-            }
-        }
-    }
-    private suspend fun teste(filter: Filter) = withContext(Dispatchers.IO) {
-        val dados = databaseDao.getAll(filter)
-        cows.postValue(dados)
     }
 }

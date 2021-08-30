@@ -45,13 +45,9 @@ class ListFragment : Fragment() {
         binding.listRecyclerView.adapter = adapter
 
 
-        listViewModel.cows.observe(viewLifecycleOwner, { mutableLiveData ->
-            mutableLiveData?.let { liveData ->
-            liveData.observe(viewLifecycleOwner, {
-                adapter.submitList(it)
-            })
-            }
-        })
+        listViewModel.cows.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
 
         listViewModel.eventNavigateToAdd.observe(
             viewLifecycleOwner,
