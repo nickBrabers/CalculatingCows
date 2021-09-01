@@ -3,70 +3,61 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp">
 
         <TextView
             android:id="@+id/text_view_number"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:textAlignment="center"
             android:textSize="22sp"
-            app:layout_constraintEnd_toStartOf="@id/text_view_age"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_alignParentStart="true"
             tools:text="255" />
 
 
         <View
-            android:id="@+id/divider_1"
+            android:id="@+id/divider_vertical_1"
             android:layout_width="1dp"
             android:layout_height="match_parent"
+            android:layout_toEndOf="@id/text_view_number"
             android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toStartOf="@id/text_view_age"
-            app:layout_constraintStart_toEndOf="@id/text_view_number"
-            app:layout_constraintTop_toTopOf="parent" />
+             />
 
         <TextView
             android:id="@+id/text_view_age"
-            android:layout_width="0dp"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
             android:textAlignment="center"
             android:textSize="22sp"
-            app:layout_constraintEnd_toStartOf="@id/text_view_date"
-            app:layout_constraintStart_toEndOf="@id/text_view_number"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_toEndOf="@id/divider_vertical_1"
             tools:text="24 months" />
 
         <View
-            android:id="@+id/divider_2"
+            android:id="@+id/divider_vertical_2"
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toStartOf="@id/text_view_date"
-            app:layout_constraintStart_toEndOf="@id/text_view_age"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_toEndOf="@id/text_view_age"
+            android:background="?android:attr/listDivider" />
 
         <TextView
             android:id="@+id/text_view_date"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
+            android:layout_toEndOf="@id/divider_vertical_2"
             android:textAlignment="center"
             android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/text_view_age"
-            app:layout_constraintTop_toTopOf="parent"
             tools:text="08/2019" />
 
         <View
-            android:id="@+id/divider"
+            android:id="@+id/divider_horizontal"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:background="?android:attr/listDivider" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 </layout>

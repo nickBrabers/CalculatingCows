@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.calculatingcows.Filter
 import com.example.calculatingcows.R
 import com.example.calculatingcows.data.CowDatabase
@@ -42,7 +43,13 @@ class ListFragment : Fragment() {
         binding.listViewModel = listViewModel
 
         val adapter = FancyListAdapter()
-        binding.listRecyclerView.adapter = adapter
+        val recyclerView = binding.listRecyclerView
+        recyclerView.adapter = adapter
+
+        val layoutManager = recyclerView.layoutManager
+
+        adapter.registerAdapterDataObserver(AdapterDataChanged(layoutManager!!))
+
 
 
         listViewModel.cows.observe(viewLifecycleOwner) {
