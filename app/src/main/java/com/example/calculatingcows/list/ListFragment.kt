@@ -1,17 +1,19 @@
 package com.example.calculatingcows.list
 
+
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.example.calculatingcows.Filter
 import com.example.calculatingcows.R
 import com.example.calculatingcows.data.CowDatabase
 import com.example.calculatingcows.data.CowDatabaseDao
 import com.example.calculatingcows.databinding.ListFragmentBinding
+import java.lang.IllegalArgumentException
 
 
 
@@ -27,6 +29,8 @@ class ListFragment : Fragment() {
     private val listViewModel: ListViewModel by lazy {
         ViewModelProvider(this, viewModelFactory).get(ListViewModel::class.java)
     }
+
+    private lateinit var preference: Filter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,16 +60,25 @@ class ListFragment : Fragment() {
             adapter.submitList(it)
         }
 
-        listViewModel.eventNavigateToAdd.observe(
-            viewLifecycleOwner,
-            { shouldNavigateToAdd ->
-                if (shouldNavigateToAdd) {
-                    this.findNavController()
-                        .navigate(ListFragmentDirections.actionListFragmentToAddFragment())
+        listViewModel.preference.observe(viewLifecycleOwner) {
+            preferenceUpdate(it)
+        }
+
+        val navArgs = getFilterFromNavArgs()
+        if (navArgs != null) {
+            listViewModel.updateFilter(navArgs)
+        }
+
+        listViewModel.eventNavigateToAdd.observe(viewLifecycleOwner)
+        { shouldNavigateToAdd ->
+            if (shouldNavigateToAdd) {
+                preference.let {
+                    Log.i("preference navigate", "preference = ${it.name}" )
+                    navigate(it)
                     listViewModel.onNavigateDone()
                 }
-            })
-
+            }
+        }
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -91,6 +104,23 @@ class ListFragment : Fragment() {
             }
 
             else -> false
+        }
+    }
+
+    private fun navigate(value: Filter) {
+        this.findNavController().navigate(ListFragmentDirections.actionListFragmentToAddFragment(value))
+    }
+
+    private fun preferenceUpdate(filter: Filter): Filter {
+        preference = filter
+        return filter
+    }
+
+    private fun getFilterFromNavArgs(): Filter?{
+        return try {
+            ListFragmentArgs.fromBundle(requireArguments()).filter
+        } catch (e: IllegalArgumentException) {
+            null
         }
     }
 }

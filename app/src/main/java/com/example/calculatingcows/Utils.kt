@@ -1,9 +1,6 @@
 package com.example.calculatingcows
 
-import android.text.format.DateUtils
 import android.util.Log
-import androidx.core.util.TimeUtils
-import org.intellij.lang.annotations.JdkConstants
 import java.text.SimpleDateFormat
 import java.util.*
 

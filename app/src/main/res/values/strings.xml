@@ -3,4 +3,7 @@
     <string name="age">Idade(meses)</string>
     <string name="number">Número</string>
     <string name="item">Número: %1$d Idade: %2$d  Nascimento: %3$s </string>
+    <string name="order_by_asc">Ordenar por ascendente</string>
+    <string name="order_by_desc">Ordenar por descendente</string>
+    <string name="delete">Deletar Todos</string>
 </resources>

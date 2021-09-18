@@ -1,6 +1,7 @@
 package com.example.calculatingcows.list
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.calculatingcows.Filter
 import com.example.calculatingcows.data.CowDatabaseDao
@@ -11,29 +12,23 @@ class ListViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
-/*
-    private val _cows = MutableLiveData<List<Cow>>()
-    val cows: LiveData<List<Cow>>
-        get() = _cows
-*/
 
     private val _eventNavigateToAdd = MutableLiveData<Boolean>()
     val eventNavigateToAdd: LiveData<Boolean>
         get() = _eventNavigateToAdd
 
     private val _preference = MutableLiveData<Filter>()
+    val preference: LiveData<Filter>
+    get() = _preference
 
     val cows = Transformations.switchMap(_preference){
         databaseDao.getAll(it)
     }
 
     init {
-        viewModelScope.launch {
             if (_preference.value == null) {
                 _preference.value = Filter.SHOW_ASC
             }
-
-        }
     }
 
 
