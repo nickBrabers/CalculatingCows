@@ -21,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:stateListAnimator="@animator/nav_default_pop_enter_anim"
             tools:listitem="@layout/cow_item"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
