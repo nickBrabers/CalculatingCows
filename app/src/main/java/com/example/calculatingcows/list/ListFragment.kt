@@ -58,6 +58,7 @@ class ListFragment : Fragment() {
 
         listViewModel.cows.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+            recyclerView.scheduleLayoutAnimation()
         }
 
         listViewModel.preference.observe(viewLifecycleOwner) {

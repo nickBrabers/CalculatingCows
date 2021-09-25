@@ -13,7 +13,6 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
         tools:context=".list.ListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -21,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layoutAnimation="@anim/layout_from_right"
             tools:listitem="@layout/cow_item"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
