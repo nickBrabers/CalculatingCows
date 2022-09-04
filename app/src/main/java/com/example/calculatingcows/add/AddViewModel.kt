@@ -7,7 +7,6 @@ import com.example.calculatingcows.data.Cow
 import com.example.calculatingcows.data.CowDatabaseDao
 import kotlinx.coroutines.launch
 
-private const val TAG = "Room"
 
 class AddViewModel(
     private val cowDatabaseDao: CowDatabaseDao,
@@ -16,7 +15,6 @@ class AddViewModel(
 
 
 
-    //Spaghetti
     fun onSaveClick(number: Int?, age: Int?){
         viewModelScope.launch {
             val cow = Cow(number = number!!, age = age!!)

@@ -1,10 +1,14 @@
 package com.example.calculatingcows.list
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.calculatingcows.R
 import com.example.calculatingcows.data.Cow
 import com.example.calculatingcows.databinding.CowItemBinding
 
@@ -19,7 +23,8 @@ class FancyListAdapter : ListAdapter<Cow, FancyListAdapter.FancyViewHolder>(Made
         holder.bind(item)
     }
 
-    class FancyViewHolder private constructor(val binding: CowItemBinding): RecyclerView.ViewHolder(binding.root) {
+    class FancyViewHolder private constructor(private val binding: CowItemBinding): RecyclerView.ViewHolder(binding.root) {
+
 
         companion object {
             fun from(parent: ViewGroup): FancyViewHolder {
@@ -44,6 +49,13 @@ class MadeDiffUtil : DiffUtil.ItemCallback<Cow>() {
 
     override fun areContentsTheSame(oldItem: Cow, newItem: Cow): Boolean {
         return oldItem == newItem
+    }
+}
+
+class AdapterDataChanged(private val layoutManager: RecyclerView.LayoutManager): RecyclerView.AdapterDataObserver(){
+    override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+        layoutManager.scrollToPosition(fromPosition)
+        super.onItemRangeMoved(fromPosition, toPosition, itemCount)
     }
 }
 

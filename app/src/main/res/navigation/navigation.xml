@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_listFragment_to_addFragment"
             app:destination="@id/addFragment" />
+        <argument
+            android:name="filter"
+            app:argType="com.example.calculatingcows.Filter" />
 
 
     </fragment>
@@ -24,6 +27,9 @@
         <action
             android:id="@+id/action_addFragment_to_listFragment"
             app:destination="@id/listFragment" />
+        <argument
+            android:name="filterAdd"
+            app:argType="com.example.calculatingcows.Filter" />
 
     </fragment>
 </navigation>
